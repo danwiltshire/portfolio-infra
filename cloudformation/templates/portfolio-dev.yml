@@ -12,6 +12,7 @@ Resources:
               SSEAlgorithm: AES256
       LoggingConfiguration:
         LogFilePrefix: portfolio-dev-logs
+      AccessControl: LogDeliveryWrite
       PublicAccessBlockConfiguration:
         BlockPublicAcls: True
         BlockPublicPolicy: True
