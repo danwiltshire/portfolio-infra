@@ -8,7 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        template: ["portfolio-dev.yml"]
+        include:
+          - stack-name: portfolio-dev
+            template-body: "file://cloudformation/templates/portfolio-dev.yml"
+
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -22,4 +25,12 @@ jobs:
 
     - name: Validate CloudFormation template
       run: |
-        aws cloudformation validate-template --template-body "file://cloudformation/templates/${{ matrix.template }}"
+        aws cloudformation validate-template \
+          --template-body "${{ matrix.template-body }}"
+
+    - name: Create stack
+      run: |
+        aws cloudformation create-stack \
+          --stack-name ${{ matrix.stack-name }} \
+          --on-failure DELETE \
+          --template-body "${{ matrix.template-body }}"
