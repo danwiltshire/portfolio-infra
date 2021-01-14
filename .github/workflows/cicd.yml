@@ -10,7 +10,7 @@ jobs:
       matrix:
         include:
           - stack-name: portfolio-dev
-            template-file: "cloudformation/templates/portfolio-dev.yml"
+            template-path: "cloudformation/templates/portfolio-dev.yml"
 
     steps:
     - name: Checkout
@@ -26,10 +26,10 @@ jobs:
     - name: Validate CloudFormation template
       run: |
         aws cloudformation validate-template \
-          --template-file "file://${{ matrix.template-body }}"
+          --template-body "file://${{ matrix.template-path }}"
 
     - name: Deploy stack
       run: |
         aws cloudformation deploy \
           --stack-name ${{ matrix.stack-name }} \
-          --template-file "${{ matrix.template-body }}"
+          --template-file "${{ matrix.template-path }}"
