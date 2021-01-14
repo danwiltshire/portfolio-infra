@@ -32,4 +32,5 @@ jobs:
       run: |
         aws cloudformation deploy \
           --stack-name ${{ matrix.stack-name }} \
-          --template-file "${{ matrix.template-path }}"
+          --template-file "${{ matrix.template-path }}" \
+          --no-fail-on-empty-changeset
