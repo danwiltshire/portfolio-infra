@@ -36,6 +36,13 @@ jobs:
         quiet: true
         framework: cloudformation
 
+    # Work out a better solution to deal with ROLLBACK_COMPLETE states, etc
+    - name: Delete existing stack
+      continue-on-error: true
+      run: |
+        aws cloudformation delete-stack \
+          --stack-name ${{ matrix.stack-name }}
+
     - name: Deploy stack
       run: |
         aws cloudformation deploy \
