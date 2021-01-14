@@ -3,7 +3,7 @@ name: CI/CD
 on: [push]
 
 jobs:
-  cluster:
+  cicd:
     name: Deploy stack to AWS
     runs-on: ubuntu-latest
     steps:
@@ -18,8 +18,8 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-west-2
 
-    - name: Deploy Amazon EKS Cluster
-      uses: aws-actions/aws-cloudformation-github-deploy@master
+    - name: Deploy to AWS CloudFormation
+      uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
         name: portfolio-dev
         template: portfolio-dev.yml
