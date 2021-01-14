@@ -28,6 +28,15 @@ jobs:
         aws cloudformation validate-template \
           --template-body "file://${{ matrix.template-path }}"
 
+    - name: Run Checkov action
+      id: checkov
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: cloudformation/templates/
+        skip_check: CKV_AWS_1
+        quiet: true
+        framework: cloudformation
+
     - name: Deploy stack
       run: |
         aws cloudformation deploy \
