@@ -43,6 +43,12 @@ jobs:
         aws cloudformation delete-stack \
           --stack-name ${{ matrix.stack-name }}
 
+    - name: Wait for deletion to complete
+      continue-on-error: true
+      run: |
+        aws cloudformation wait stack-delete-complete \
+          --stack-name ${{ matrix.stack-name }}
+
     - name: Deploy stack
       run: |
         aws cloudformation deploy \
