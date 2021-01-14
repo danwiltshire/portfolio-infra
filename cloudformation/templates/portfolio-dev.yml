@@ -1,7 +1,38 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Development portfolio stack
 Resources:
-  S3Bucket:
+  LogBucket:
+    #checkov:skip=CKV_AWS_21:Log bucket should not have versioning
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: portfolio-dev-logs
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LoggingConfiguration:
+        LogFilePrefix: portfolio-dev-logs
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+  WebAppBucket:
     Type: 'AWS::S3::Bucket'
     Properties:
       BucketName: portfolio-dev-webapp
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LoggingConfiguration:
+        DestinationBucketName: !Ref LogBucket
+        LogFilePrefix: portfolio-dev-webapp
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+      VersioningConfiguration:
+        Status: Enabled
+

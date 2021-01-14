@@ -33,7 +33,6 @@ jobs:
       uses: bridgecrewio/checkov-action@master
       with:
         directory: cloudformation/templates/
-        skip_check: CKV_AWS_1
         quiet: true
         framework: cloudformation
 
